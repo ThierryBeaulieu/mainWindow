@@ -9,6 +9,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
+void processInput(GLFWwindow *window)
+{
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
+
 int main()
 {
     // Initialize GLFW
@@ -48,7 +54,11 @@ int main()
     while (!glfwWindowShouldClose(window))
     {
         // Clear the buffer
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        // Input handling
+        processInput(window);
 
         // Other rendering or drawing code can go here
 
