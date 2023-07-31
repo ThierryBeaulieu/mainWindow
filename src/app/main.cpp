@@ -15,11 +15,17 @@ const char *vertexShaderSource = "#version 330 core\n"
     "{\n"
     "   gl_Position = vec4(aPos, 1.0);\n"
     "}\0";
-const char *fragmentShaderSource = "#version 330 core\n"
+const char *fragmentShaderSourceRed = "#version 330 core\n"
     "out vec4 FragColor;\n"
     "void main()\n"
     "{\n"
     "   FragColor = vec4(0.92, 0.20, 0.20, 1.0);\n"
+    "}\0";
+const char *fragmentShaderSourcePink = "#version 330 core\n"
+    "out vec4 FragColor;\n"
+    "void main()\n"
+    "{\n"
+    "   FragColor = vec4(0.87, 0.22, 0.87, 1.0);\n"
     "}\0";
 
 int main()
@@ -67,15 +73,27 @@ int main()
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 
-    // Fragment shader
+    // Fragment shader Red
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSourceRed, NULL);
     glCompileShader(fragmentShader);
     // check for shader compile errors
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (!success)
     {
         glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+
+    // Fragment shader Pink
+    unsigned int fragmentShaderPink = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShaderPink, 1, &fragmentShaderSourcePink, NULL);
+    glCompileShader(fragmentShaderPink);
+    // check for shader compile errors
+    glGetShaderiv(fragmentShaderPink, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        glGetShaderInfoLog(fragmentShaderPink, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 
@@ -90,8 +108,21 @@ int main()
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
-    glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+
+    // Link shaders for Pink Shader
+    unsigned int shaderProgramPink = glCreateProgram();
+    glAttachShader(shaderProgramPink, vertexShader);
+    glAttachShader(shaderProgramPink, fragmentShaderPink);
+    glLinkProgram(shaderProgramPink);
+    // check for linking errors
+    glGetProgramiv(shaderProgramPink, GL_LINK_STATUS, &success);
+    if (!success) {
+        glGetProgramInfoLog(shaderProgramPink, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+    }
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShaderPink);
 
 
     float vertices1[] = {
@@ -134,7 +165,8 @@ int main()
     glEnableVertexAttribArray(0);
 
 
-    glUseProgram(shaderProgram);
+    glUseProgram(shaderProgramPink);
+    // glUseProgram(shaderProgram);
 
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
