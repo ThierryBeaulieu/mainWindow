@@ -19,11 +19,11 @@ const char *vertexShaderSource = "#version 330 core\n"
     "   ourColor = aColor;\n"
     "}\0";
 const char *fragmentShaderSource = "#version 330 core\n"
-    "out vec4 FragColor;\n"
+    "out vec3 FragColor;\n"
     "in vec3 ourColor;\n"
     "void main()\n"
     "{\n"
-    "   FragColor = vec4(ourColor, 1.0);\n"
+    "   FragColor = ourColor;\n"
     "}\0";
 
 int main()
@@ -100,9 +100,9 @@ int main()
 
     float vertices[] = {
         // positions         // colors
-        0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
-        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
-        0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
+        0.5f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+        -0.5f, 0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+        0.0f,  -0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
     };   
 
     unsigned int VBO, VAO;
