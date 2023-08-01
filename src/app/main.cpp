@@ -46,7 +46,7 @@ int main()
 
     // build and compile our shader program
     // ------------------------------------
-    Shader ourShader("/Users/thierry/Desktop/mainWindow/src/shaders/shader.vs", "/Users/thierry/Desktop/mainWindow/src/shaders/shader.fs");
+    Shader ourShader("src/shaders/shader.vs", "src/shaders/shader.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
