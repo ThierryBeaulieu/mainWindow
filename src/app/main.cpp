@@ -99,6 +99,12 @@ int main()
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
+
+    /*
+     * réponse du corrigé:
+     * shaderProgram.setFloat("xOffset", offset);
+     * uniform float xOffset;
+    */
     int vertexOffset = glGetUniformLocation(shaderProgram, "offset");
     glUseProgram(shaderProgram);
     glUniform3f(vertexOffset, 0.3f, 0.3f, 0.3f);
