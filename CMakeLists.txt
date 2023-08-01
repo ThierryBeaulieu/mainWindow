@@ -11,6 +11,9 @@ find_package(GLEW REQUIRED)
 
 add_subdirectory(src/app)
 
+configure_file(${CMAKE_SOURCE_DIR}/src/shaders/shader.vs ${CMAKE_BINARY_DIR}/src/shaders/shader.vs COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/shaders/shader.fs ${CMAKE_BINARY_DIR}/src/shaders/shader.fs COPYONLY)
+
 
 
 
