@@ -9,8 +9,10 @@ find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
 
-include_directories(src/include)
-include_directories(src/glm)
+include_directories(src/include/glm)
+include_directories(src/include/shader)
+include_directories(src/include/stb_image)
+
 add_subdirectory(src/app)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/assets/awesomeface.png ${CMAKE_BINARY_DIR}/src/assets/awesomeface.png COPYONLY)
