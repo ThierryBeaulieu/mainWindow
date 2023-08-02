@@ -28,7 +28,6 @@ public:
         {
             // open files
             vShaderFile.open(vertexPath);
-            printf("THIERRY: This worked fine");
 
             fShaderFile.open(fragmentPath);
             std::stringstream vShaderStream, fShaderStream;

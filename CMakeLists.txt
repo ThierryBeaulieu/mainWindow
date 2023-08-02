@@ -12,7 +12,7 @@ find_package(GLEW REQUIRED)
 include_directories(src/include)
 add_subdirectory(src/app)
 
-configure_file(${CMAKE_SOURCE_DIR}/src/assets/awesomeface.jpg ${CMAKE_BINARY_DIR}/src/assets/awesomeface.jpg COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/assets/awesomeface.png ${CMAKE_BINARY_DIR}/src/assets/awesomeface.png COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/assets/container.jpg ${CMAKE_BINARY_DIR}/src/assets/container.jpg COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/assets/wall.jpg ${CMAKE_BINARY_DIR}/src/assets/wall.jpg COPYONLY)
 
