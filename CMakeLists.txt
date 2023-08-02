@@ -10,6 +10,7 @@ find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
 
 include_directories(src/include)
+include_directories(src/glm)
 add_subdirectory(src/app)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/assets/awesomeface.png ${CMAKE_BINARY_DIR}/src/assets/awesomeface.png COPYONLY)
