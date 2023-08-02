@@ -9,7 +9,7 @@ find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
 
-include_directories(src/include/glm)
+include_directories(glm)
 include_directories(src/include/shader)
 include_directories(src/include/stb_image)
 
