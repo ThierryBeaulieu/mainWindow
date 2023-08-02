@@ -13,6 +13,8 @@ void processInput(GLFWwindow *window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+float opacity = 0.2f;
+
 int main()
 {
     // glfw: initialize and configure
@@ -141,12 +143,12 @@ int main()
     // or set it via the texture class
     ourShader.setInt("texture2", 1);
 
-
     // render loop
     while (!glfwWindowShouldClose(window))
     {
         // input
         processInput(window);
+ 
 
         // render
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -164,6 +166,7 @@ int main()
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        ourShader.setFloat("faceOpacity", opacity);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -181,8 +184,17 @@ int main()
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 void processInput(GLFWwindow *window)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
         glfwSetWindowShouldClose(window, true);
+    } else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+        if (opacity > 0.0){
+            opacity = opacity - 0.01f;
+        }
+    } else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+        if (opacity < 1.0){
+            opacity = opacity + 0.01f;
+        }
+    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
