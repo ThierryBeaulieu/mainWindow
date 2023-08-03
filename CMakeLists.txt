@@ -12,6 +12,7 @@ find_package(GLEW REQUIRED)
 include_directories(glm)
 include_directories(src/include/shader)
 include_directories(src/include/stb_image)
+include_directories(src/include/camera)
 
 add_subdirectory(src/app)
 
