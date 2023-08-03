@@ -17,6 +17,7 @@ include_directories(src/include/camera)
 add_subdirectory(src/app)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/assets/awesomeface.png ${CMAKE_BINARY_DIR}/src/assets/awesomeface.png COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/assets/cobblestone.png ${CMAKE_BINARY_DIR}/src/assets/cobblestone.png COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/assets/container.jpg ${CMAKE_BINARY_DIR}/src/assets/container.jpg COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/assets/wall.jpg ${CMAKE_BINARY_DIR}/src/assets/wall.jpg COPYONLY)
 
