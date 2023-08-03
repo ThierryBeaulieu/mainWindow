@@ -165,6 +165,8 @@ int main()
     }
     stbi_image_free(data);
 
+    glEnable(GL_DEPTH_TEST);
+
     ourShader.use(); 
     ourShader.setInt("texture1", 0);
     ourShader.setInt("texture2", 1);
@@ -178,7 +180,7 @@ int main()
 
         // render
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // bind textures on corresponding texture units
         glActiveTexture(GL_TEXTURE0);
