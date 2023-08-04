@@ -69,7 +69,8 @@ int main()
         1,2,3
     };
 
-    // comme les coordonées sont
+    // Since that all coordinates are relative, it's not a perfect square.
+    // How to make it perfect?
 
     // world space positions of our cubes
     // glm::vec2 cubePositions[] = {
