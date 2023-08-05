@@ -158,8 +158,12 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
         if (button == LEFT_MOUSE_KEY){
             // should place a rectangle
             double xpos, ypos;
+
+            // TODO: trouver une meilleure manière de normaliser ça
             glfwGetCursorPos(window, &xpos, &ypos);
-            glm::vec3 pos = glm::vec3((float)xpos/scr_width, (float)ypos/scr_height,  0.0f);
+            float coordx = (float)xpos/scr_width - 0.5f;
+            float coordy = (float)ypos/scr_width - 0.5f;
+            glm::vec3 pos = glm::vec3(coordx, coordy,  0.0f);
             cubePositions.push_back(pos);
 
 
