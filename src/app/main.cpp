@@ -238,7 +238,7 @@ int main()
         // pass projection matrix to shader (note that in this case it could change every frame)
         // glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         float aspect = (float)SCR_WIDTH/(float)SCR_HEIGHT;
-        glm::mat4 projection = glm::ortho(-2.0f, +2.0f, -1.5f, +1.5f, 0.1f, 100.0f);
+        glm::mat4 projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f, 0.1f, 100.0f);
 
         ourShader.setMat4("projection", projection);
 
