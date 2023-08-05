@@ -69,12 +69,6 @@ int main()
         1,2,3
     };
 
-    // Since that all coordinates are relative, it's not a perfect square.
-    // How to make it perfect?
-
-    // world space positions of our cubes
-    // glm::vec2 cubePositions[] = {
-    // };
     unsigned int VBO, VAO, EBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -108,6 +102,10 @@ int main()
         // --------------------
         glClearColor(0.80f, 0.80f, 0.80f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT); 
+
+        float aspect = (float)SCR_WIDTH/(float)SCR_HEIGHT;
+        glm::mat4 projection = glm::orth(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
+        ourShader.setMat4("projection", )
 
         ourShader.use();
         glBindVertexArray(VAO);
