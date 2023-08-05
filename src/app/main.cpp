@@ -111,9 +111,14 @@ int main()
         float aspect = (float)scr_width/(float)scr_height;
 
         for (glm::vec3 pos: cubePositions){
+
             glm::mat4 projection = glm::mat4(1.0f);
             projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
             ourShader.setMat4("projection", projection);
+
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, pos);
+            ourShader.setMat4("model", model);
 
             ourShader.use();
             glBindVertexArray(VAO);
@@ -152,10 +157,14 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
     if (action == GLFW_PRESS) {
         if (button == LEFT_MOUSE_KEY){
             // should place a rectangle
-            glm::vec3 pos = glm::vec3( 0.0f,  0.0f,  0.0f);
+            double xpos, ypos;
+            glfwGetCursorPos(window, &xpos, &ypos);
+            glm::vec3 pos = glm::vec3((float)xpos/scr_width, (float)ypos/scr_height,  0.0f);
             cubePositions.push_back(pos);
 
-            printf("Left key was pressed\n");
+
+            // Print the mouse cursor's position
+            std::cout << "Mouse Position: x = " << xpos << ", y = " << ypos << std::endl;
         }
     }
 }
