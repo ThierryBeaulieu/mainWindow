@@ -104,9 +104,10 @@ int main()
         glClearColor(0.145f, 0.145f, 0.145f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT); 
 
-        //float aspect = (float)scr_width/(float)scr_height;
-        //glm::mat4 projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
-        //ourShader.setMat4("projection", projection);
+        float aspect = (float)scr_width/(float)scr_height;
+        // glm::mat4 projection = glm::mat4(1.0f);
+        // projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -0.1f, 100.0f);
+        // ourShader.setMat4("projection", projection);
 
         ourShader.use();
         glBindVertexArray(VAO);
