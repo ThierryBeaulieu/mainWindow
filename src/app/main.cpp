@@ -19,6 +19,14 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 unsigned int scr_width = 800;
 unsigned int scr_height = 600;
 
+enum MOUSE_BUTTONS {
+    LEFT_MOUSE_KEY,
+    RIGHT_MOUSE_KEY,
+    WHEEL_MOUSE_KEY,
+};
+
+std::vector<glm::vec3> cubePositions = {};
+
 int main()
 {
     // glfw: initialize and configure
@@ -98,17 +106,22 @@ int main()
         processInput(window);
         // per-frame time logic
         glClearColor(0.145f, 0.145f, 0.145f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT); 
+        glClear(GL_COLOR_BUFFER_BIT);
 
         float aspect = (float)scr_width/(float)scr_height;
-        glm::mat4 projection = glm::mat4(1.0f);
-        projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
-        ourShader.setMat4("projection", projection);
 
-        ourShader.use();
-        glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        for (glm::vec3 pos: cubePositions){
+            glm::mat4 projection = glm::mat4(1.0f);
+            projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
+            ourShader.setMat4("projection", projection);
+
+            ourShader.use();
+            glBindVertexArray(VAO);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        }
+
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -137,9 +150,13 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
     if (action == GLFW_PRESS) {
-        printf("Mouse button %d pressed\n", button);
-    } else if (action == GLFW_RELEASE) {
-        printf("Mouse button %d released\n", button);
+        if (button == LEFT_MOUSE_KEY){
+            // should place a rectangle
+            glm::vec3 pos = glm::vec3( 0.0f,  0.0f,  0.0f);
+            cubePositions.push_back(pos);
+
+            printf("Left key was pressed\n");
+        }
     }
 }
 
