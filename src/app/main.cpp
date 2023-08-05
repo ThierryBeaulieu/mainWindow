@@ -11,9 +11,9 @@
 #include <glm/gtc/type_ptr.hpp>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 void processInput(GLFWwindow *window);
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
 // settings
 unsigned int scr_width = 800;
@@ -43,8 +43,7 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetScrollCallback(window, scroll_callback);
+    glfwSetMouseButtonCallback(window, mouseButtonCallback);
 
     // Initialize GLEW
     if (glewInit() != GLEW_OK)
@@ -144,15 +143,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     scr_width = width;
 }
 
-
-// glfw: whenever the mouse moves, this callback is called
-void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
-{
-
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+    if (action == GLFW_PRESS) {
+        printf("Mouse button %d pressed\n", button);
+    } else if (action == GLFW_RELEASE) {
+        printf("Mouse button %d released\n", button);
+    }
 }
 
-// glfw: whenever the mouse scroll wheel scrolls, this callback is called
-// ----------------------------------------------------------------------
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-}
