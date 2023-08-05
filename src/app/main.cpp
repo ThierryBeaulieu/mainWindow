@@ -16,8 +16,8 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+unsigned int scr_width = 800;
+unsigned int scr_height = 600;
 
 int main()
 {
@@ -34,7 +34,7 @@ int main()
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(scr_width, scr_height, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -59,10 +59,11 @@ int main()
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     float vertices[] = {
-        0.5f,  0.5f, 0.0f,  // top right
-        0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left 
+        // vertices          // colors
+        0.5f,   0.5f, 0.0f,  1.0f, 0.0f, 0.0f, // top right
+        0.5f,  -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f, // bottom left
+        -0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f  // top left 
     };
     unsigned int indices[] = {
         0,1,3,
@@ -82,8 +83,11 @@ int main()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    // colors
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3*sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
 
@@ -91,21 +95,18 @@ int main()
 
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
-
         processInput(window);
         // per-frame time logic
-        // --------------------
-        glClearColor(0.80f, 0.80f, 0.80f, 1.0f);
+        glClearColor(0.145f, 0.145f, 0.145f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT); 
 
-        float aspect = (float)SCR_WIDTH/(float)SCR_HEIGHT;
-        glm::mat4 projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
-        ourShader.setMat4("projection", projection);
+        //float aspect = (float)scr_width/(float)scr_height;
+        //glm::mat4 projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
+        //ourShader.setMat4("projection", projection);
 
         ourShader.use();
         glBindVertexArray(VAO);
@@ -134,7 +135,12 @@ void processInput(GLFWwindow *window)
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
+    // Prochaine étape serait que lorsqu'une personne change la taille du viewport
+    // On change dynamiquement la taille du rectangle
+    // Étape après : On veut avoir des coordonnées qui ne change pas pour l'écran
     glViewport(0, 0, width, height);
+    scr_height = height;
+    scr_width = width;
 }
 
 
