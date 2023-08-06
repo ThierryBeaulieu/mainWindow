@@ -117,26 +117,30 @@ int main()
         // activate shader
         ourShader.use();
 
-        float aspect = (float)SCR_WIDTH/(float)SCR_HEIGHT;
-        glm::mat4 model = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
-        ourShader.setMat4("model", model);
-
         float pixelWidth = maxDefaultViewportX / nbPixels;
         float halfPixelWidth = pixelWidth / 2;
         float posX = -maxDefaultViewportX / 2 + halfPixelWidth;
 
+        glm::mat4 trans = glm::mat4(1.0f);
+
         for (unsigned int i = 0; i < nbPixels; ++i){
-            std::cout << "Pixel position ";
-            std::cout << posX << std::endl;
+            trans = glm::translate(trans, glm::vec3(posX, 0.0f, 0.0f));
+            ourShader.setMat4("transform", trans);
+
+            float aspect = (float)SCR_WIDTH/(float)SCR_HEIGHT;
+            glm::mat4 model = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
+            model = glm::scale(model, glm::vec3(0.3f, 0.3f, 1.0f));
+            ourShader.setMat4("model", model);
+
+            // render boxes
+            glBindVertexArray(VAO);
+
+            // Draw the rectangle
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+            // need to draw pixel here
             posX = posX + pixelWidth;
         }
-        break;
-
-        // render boxes
-        glBindVertexArray(VAO);
-
-        // Draw the rectangle
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
