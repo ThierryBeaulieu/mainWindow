@@ -27,6 +27,8 @@ enum MOUSE_BUTTONS {
 
 std::vector<glm::vec3> cubePositions = {};
 
+bool isRightMouseKeyBeingPressed = false;
+
 int main()
 {
     // glfw: initialize and configure
@@ -156,6 +158,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
     if (action == GLFW_PRESS && button == LEFT_MOUSE_KEY){
+        isRightMouseKeyBeingPressed = true;
         // should place a rectangle
         double xpos, ypos;
 
@@ -169,6 +172,8 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
 
         // Print the mouse cursor's position
         std::cout << "Mouse Position: x = " << xpos << ", y = " << ypos << std::endl;
+    } else if (action == GLFW_RELEASE && button == LEFT_MOUSE_KEY) {
+        isRightMouseKeyBeingPressed = false;
     }
 }
 
