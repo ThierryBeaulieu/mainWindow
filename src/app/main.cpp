@@ -177,14 +177,29 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
 }
 
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos){
-    if(isRightMouseKeyBeingPressed)
+    if (isRightMouseKeyBeingPressed)
     {
-        double xpos, ypos;
-        glfwGetCursorPos(window, &xpos, &ypos);
-        float coordx = 2 * (float)xpos/scr_width - 1;
-        float coordy = - 2 * (float)ypos/scr_height + 1;
-        glm::vec3 pos = glm::vec3(coordx, coordy,  0.0f);
-        cubePositions.push_back(pos);
+        float coordx = 2 * (float)xpos / scr_width - 1;
+        float coordy = -2 * (float)ypos / scr_height + 1;
+        glm::vec3 newPos = glm::vec3(coordx, coordy, 0.0f);
+
+        // Always add the last recorded position along with the new position
+        if (!cubePositions.empty()) {
+            glm::vec3 lastPos = cubePositions.back();
+            float distance = glm::length(newPos - lastPos);
+
+            // Only add intermediate positions if the distance is significant
+            const float minDistance = 0.005f; // Adjust this threshold as needed
+            if (distance > minDistance) {
+                int numSteps = static_cast<int>(distance / minDistance);
+                for (int i = 0; i < numSteps; ++i) {
+                    glm::vec3 interpolatedPos = glm::mix(lastPos, newPos, static_cast<float>(i) / numSteps);
+                    cubePositions.push_back(interpolatedPos);
+                }
+            }
+        }
+
+        // Add the new position to the end of the positions array
+        cubePositions.push_back(newPos);
     }
 }
-
