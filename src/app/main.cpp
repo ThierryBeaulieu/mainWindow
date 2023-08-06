@@ -189,7 +189,7 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos){
             float distance = glm::length(newPos - lastPos);
 
             // Only add intermediate positions if the distance is significant
-            const float minDistance = 0.005f; // Adjust this threshold as needed
+            const float minDistance = 0.007f; // Adjust this threshold as needed
             if (distance > minDistance) {
                 int numSteps = static_cast<int>(distance / minDistance);
                 for (int i = 0; i < numSteps; ++i) {
