@@ -115,7 +115,7 @@ int main()
         ourShader.use();
 
         float aspect = (float)SCR_WIDTH/(float)SCR_HEIGHT;
-        glm::mat4 model = glm::ortho(-aspect, aspect, -1.0f, 1.0f, 0.1f, 100.0f);
+        glm::mat4 model = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
         ourShader.setMat4("model", model);
 
         // render boxes
