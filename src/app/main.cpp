@@ -155,22 +155,20 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
-    if (action == GLFW_PRESS) {
-        if (button == LEFT_MOUSE_KEY){
-            // should place a rectangle
-            double xpos, ypos;
+    if (action == GLFW_PRESS && button == LEFT_MOUSE_KEY){
+        // should place a rectangle
+        double xpos, ypos;
 
-            // TODO: trouver une meilleure manière de normaliser ça
-            glfwGetCursorPos(window, &xpos, &ypos);
-            float coordx = (float)xpos/scr_width - 0.5f;
-            float coordy = (float)ypos/scr_width - 0.5f;
-            glm::vec3 pos = glm::vec3(coordx, coordy,  0.0f);
-            cubePositions.push_back(pos);
+        // TODO: trouver une meilleure manière de normaliser ça
+        glfwGetCursorPos(window, &xpos, &ypos);
+        float coordx = (float)xpos/scr_width - 0.5f;
+        float coordy = (float)ypos/scr_width - 0.5f;
+        glm::vec3 pos = glm::vec3(coordx, coordy,  0.0f);
+        cubePositions.push_back(pos);
 
 
-            // Print the mouse cursor's position
-            std::cout << "Mouse Position: x = " << xpos << ", y = " << ypos << std::endl;
-        }
+        // Print the mouse cursor's position
+        std::cout << "Mouse Position: x = " << xpos << ", y = " << ypos << std::endl;
     }
 }
 
