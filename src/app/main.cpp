@@ -163,14 +163,11 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
         isRightMouseKeyBeingPressed = true;
         // should place a rectangle
         double xpos, ypos;
-
-        // TODO: trouver une meilleure manière de normaliser ça
         glfwGetCursorPos(window, &xpos, &ypos);
-        float coordx = (float)xpos/scr_width - 0.5f;
-        float coordy = (float)ypos/scr_width - 0.5f;
+        float coordx = 2 * (float)xpos/scr_width - 1;
+        float coordy = - 2 * (float)ypos/scr_height + 1;
         glm::vec3 pos = glm::vec3(coordx, coordy,  0.0f);
         cubePositions.push_back(pos);
-
 
         // Print the mouse cursor's position
         std::cout << "Mouse Position: x = " << xpos << ", y = " << ypos << std::endl;
@@ -184,8 +181,8 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos){
     {
         double xpos, ypos;
         glfwGetCursorPos(window, &xpos, &ypos);
-        float coordx = (float)xpos/scr_width - 0.5f;
-        float coordy = (float)ypos/scr_width - 0.5f;
+        float coordx = 2 * (float)xpos/scr_width - 1;
+        float coordy = - 2 * (float)ypos/scr_height + 1;
         glm::vec3 pos = glm::vec3(coordx, coordy,  0.0f);
         cubePositions.push_back(pos);
     }
