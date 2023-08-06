@@ -68,7 +68,7 @@ int main()
 
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+    // io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
     ImGui_ImplGlfwGL3_Init(window, true);
 
@@ -132,12 +132,34 @@ int main()
             ImGui::End();
         }
 
+
+        float aspect = (float)scr_width/(float)scr_height;
+
+        for (glm::vec3 pos: cubePositions){
+
+            glm::mat4 projection = glm::mat4(1.0f);
+            projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
+            ourShader.setMat4("projection", projection);
+
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, pos);
+            model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
+            ourShader.setMat4("model", model);
+
+            ourShader.use();
+            glBindVertexArray(VAO);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        }
+
         // Rendering
         int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
-        glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+
+        glClearColor(0.145f, 0.145f, 0.145f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
         ImGui::Render();
         ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
         glfwSwapBuffers(window);

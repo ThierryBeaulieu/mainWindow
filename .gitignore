@@ -4,4 +4,4 @@ build/
 .DS_Store
 Reminder.md
 
-*.ini
+imgui.ini
