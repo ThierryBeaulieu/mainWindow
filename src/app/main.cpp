@@ -102,6 +102,9 @@ int main()
 
     ourShader.use();
 
+    unsigned int nbPixels = 6;
+    const float maxDefaultViewportX = 0.6;
+
     while (!glfwWindowShouldClose(window))
     {
         // input
@@ -117,6 +120,17 @@ int main()
         float aspect = (float)SCR_WIDTH/(float)SCR_HEIGHT;
         glm::mat4 model = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
         ourShader.setMat4("model", model);
+
+        float pixelWidth = maxDefaultViewportX / nbPixels;
+        float halfPixelWidth = pixelWidth / 2;
+        float posX = -maxDefaultViewportX / 2 + halfPixelWidth;
+
+        for (unsigned int i = 0; i < nbPixels; ++i){
+            std::cout << "Pixel position ";
+            std::cout << posX << std::endl;
+            posX = posX + pixelWidth;
+        }
+        break;
 
         // render boxes
         glBindVertexArray(VAO);
