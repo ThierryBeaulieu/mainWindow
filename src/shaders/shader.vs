@@ -7,9 +7,10 @@ out vec3 ourColor;
 
 uniform mat4 model;
 uniform mat4 transform;
+uniform float posx;
 
 void main()
 {
 	gl_Position = transform * model * vec4(aPos, 1.0f);
-	ourColor = aColor;
+	ourColor = vec3(posx, aColor.y, aColor.z);
 }

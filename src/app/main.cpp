@@ -132,6 +132,8 @@ int main()
             model = glm::scale(model, glm::vec3(0.3f, 0.3f, 1.0f));
             ourShader.setMat4("model", model);
 
+            ourShader.setFloat("posx", posX);
+
             // render boxes
             glBindVertexArray(VAO);
 
