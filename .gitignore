@@ -3,3 +3,5 @@ build/
 // Mac files
 .DS_Store
 Reminder.md
+
+*.ini
