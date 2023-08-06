@@ -5,6 +5,8 @@ project(mainWindow VERSION 1.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_OSX_ARCHITECTURES "arm64")
+
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
@@ -13,8 +15,11 @@ include_directories(glm)
 include_directories(src/include/shader)
 include_directories(src/include/stb_image)
 include_directories(src/include/camera)
+include_directories(src/include/imgui)
 
 add_subdirectory(src/app)
+
+
 
 configure_file(${CMAKE_SOURCE_DIR}/src/assets/awesomeface.png ${CMAKE_BINARY_DIR}/src/assets/awesomeface.png COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/src/assets/cobblestone.png ${CMAKE_BINARY_DIR}/src/assets/cobblestone.png COPYONLY)

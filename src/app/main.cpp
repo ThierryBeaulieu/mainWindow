@@ -10,6 +10,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "imgui.h"
+#include "imgui_impl_glfw_gl3.h"
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 void processInput(GLFWwindow *window);
@@ -63,6 +66,19 @@ int main()
         return -1;
     }
 
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
+    ImGui_ImplGlfwGL3_Init(window, true);
+
+    // Setup style
+    ImGui::StyleColorsDark();
+
+    bool show_demo_window = true;
+    bool show_another_window = false;
+    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
     // build and compile our shader zprogram
     Shader ourShader("src/shaders/shader.vs", "src/shaders/shader.fs");
 
@@ -107,38 +123,66 @@ int main()
     // render loop
     while (!glfwWindowShouldClose(window))
     {
-        processInput(window);
-        // per-frame time logic
-        glClearColor(0.145f, 0.145f, 0.145f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
+        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
+        // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
+        // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+        glfwPollEvents();
+        ImGui_ImplGlfwGL3_NewFrame();
 
-        float aspect = (float)scr_width/(float)scr_height;
+        // 1. Show a simple window.
+        // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets automatically appears in a window called "Debug".
+        {
+            static float f = 0.0f;
+            static int counter = 0;
+            ImGui::Text("Hello, world!");                           // Display some text (you can use a format string too)
+            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
+            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
 
-        for (glm::vec3 pos: cubePositions){
+            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our windows open/close state
+            ImGui::Checkbox("Another Window", &show_another_window);
 
-            glm::mat4 projection = glm::mat4(1.0f);
-            projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
-            ourShader.setMat4("projection", projection);
+            if (ImGui::Button("Button"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
+                counter++;
+            ImGui::SameLine();
+            ImGui::Text("counter = %d", counter);
 
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, pos);
-            model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
-            ourShader.setMat4("model", model);
-
-            ourShader.use();
-            glBindVertexArray(VAO);
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         }
 
+        // 2. Show another simple window. In most cases you will use an explicit Begin/End pair to name your windows.
+        if (show_another_window)
+        {
+            ImGui::Begin("Another Window", &show_another_window);
+            ImGui::Text("Hello from another window!");
+            if (ImGui::Button("Close Me"))
+                show_another_window = false;
+            ImGui::End();
+        }
 
+        // 3. Show the ImGui demo window. Most of the sample code is in ImGui::ShowDemoWindow(). Read its code to learn more about Dear ImGui!
+        if (show_demo_window)
+        {
+            ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_FirstUseEver); // Normally user code doesn't need/want to call this because positions are saved in .ini file anyway. Here we just want to make the demo initial state a bit more friendly!
+            ImGui::ShowDemoWindow(&show_demo_window);
+        }
+
+        // Rendering
+        int display_w, display_h;
+        glfwGetFramebufferSize(window, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
+        glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+        glClear(GL_COLOR_BUFFER_BIT);
+        ImGui::Render();
+        ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
         glfwSwapBuffers(window);
-        glfwPollEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
+    ImGui_ImplGlfwGL3_Shutdown();
+    ImGui::DestroyContext();
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     glfwTerminate();
