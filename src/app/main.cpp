@@ -14,6 +14,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 void processInput(GLFWwindow *window);
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 
 // settings
 unsigned int scr_width = 800;
@@ -52,6 +53,7 @@ int main()
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetMouseButtonCallback(window, mouseButtonCallback);
+    glfwSetCursorPosCallback(window, cursor_position_callback);
 
     // Initialize GLEW
     if (glewInit() != GLEW_OK)
@@ -174,6 +176,18 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
         std::cout << "Mouse Position: x = " << xpos << ", y = " << ypos << std::endl;
     } else if (action == GLFW_RELEASE && button == LEFT_MOUSE_KEY) {
         isRightMouseKeyBeingPressed = false;
+    }
+}
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos){
+    if(isRightMouseKeyBeingPressed)
+    {
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+        float coordx = (float)xpos/scr_width - 0.5f;
+        float coordy = (float)ypos/scr_width - 0.5f;
+        glm::vec3 pos = glm::vec3(coordx, coordy,  0.0f);
+        cubePositions.push_back(pos);
     }
 }
 
