@@ -127,7 +127,7 @@ int main()
         for (unsigned int i = 0; i < nbPixels; ++i){
 
             glm::mat4 model = glm::mat4(1.0f);
-            model = glm::scale(model, glm::vec3(pixelWidth, pixelWidth, 0.0f));
+            model = glm::scale(model, glm::vec3(pixelWidth/2, pixelWidth/2, 0.0f));
             ourShader.setMat4("model", model);
 
             glm::mat4 trans = glm::mat4(1.0f);
@@ -138,8 +138,6 @@ int main()
 
             // Draw the rectangle
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            std::cout << "position x : ";
-            std::cout << posx << std::endl;
             posx = posx + pixelWidth;
         }
 
