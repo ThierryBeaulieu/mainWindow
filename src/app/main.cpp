@@ -102,10 +102,10 @@ int main()
 
     ourShader.use();
 
-    unsigned int imageWidth = 40;
-    unsigned int imageHeight = 20;
-    const float MAX_ABS_POSX_VIEWPORT = 0.9f;
-    const float MAX_ABS_POSY_VIEWPORT = 0.9f;
+    unsigned int imageWidth = 640;
+    unsigned int imageHeight = 480;
+    const float MAX_ABS_POSX_VIEWPORT = 0.8f;
+    const float MAX_ABS_POSY_VIEWPORT = 0.8f;
     const float MAX_X_VIEWPORT = MAX_ABS_POSX_VIEWPORT + MAX_ABS_POSX_VIEWPORT;
     const float MAX_Y_VIEWPORT = MAX_ABS_POSY_VIEWPORT + MAX_ABS_POSY_VIEWPORT;
 
@@ -134,7 +134,7 @@ int main()
 
         float aspect = (float)SCR_WIDTH/(float)SCR_HEIGHT;
 
-        glBindVertexArray(VAO);
+        // glBindVertexArray(VAO);
 
         for (unsigned int i = 0; i < imageHeight; ++i) {
             for (unsigned int j = 0; j < imageWidth; ++j) {
