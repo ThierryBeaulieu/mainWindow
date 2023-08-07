@@ -68,6 +68,8 @@
         "queue": "cpp",
         "stack": "cpp",
         "numeric": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "__memory": "cpp",
+        "filesystem": "cpp"
     }
 }

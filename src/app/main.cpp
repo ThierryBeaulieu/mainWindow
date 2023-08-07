@@ -12,6 +12,7 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -26,6 +27,18 @@ bool firstMouse = true;
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
+
+float scalingRatio = 1.0f;
+
+unsigned int imageWidth = 64;
+unsigned int imageHeight = 48;
+const float MAX_ABS_POSX_VIEWPORT = 0.8f;
+const float MAX_ABS_POSY_VIEWPORT = 0.8f;
+const float MAX_X_VIEWPORT = MAX_ABS_POSX_VIEWPORT + MAX_ABS_POSX_VIEWPORT;
+const float MAX_Y_VIEWPORT = MAX_ABS_POSY_VIEWPORT + MAX_ABS_POSY_VIEWPORT;
+
+float pixelWidth = MAX_X_VIEWPORT / imageHeight;
+float pixelHeight = pixelWidth;
 
 int main()
 {
@@ -51,6 +64,7 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetScrollCallback(window, scroll_callback);
 
     // Initialize GLEW
     if (glewInit() != GLEW_OK)
@@ -100,22 +114,13 @@ int main()
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    ourShader.use();
-
-    unsigned int imageWidth = 640;
-    unsigned int imageHeight = 480;
-    const float MAX_ABS_POSX_VIEWPORT = 0.8f;
-    const float MAX_ABS_POSY_VIEWPORT = 0.8f;
-    const float MAX_X_VIEWPORT = MAX_ABS_POSX_VIEWPORT + MAX_ABS_POSX_VIEWPORT;
-    const float MAX_Y_VIEWPORT = MAX_ABS_POSY_VIEWPORT + MAX_ABS_POSY_VIEWPORT;
-
-    float pixelWidth = MAX_X_VIEWPORT / imageHeight;
     if (imageWidth > imageHeight){
         pixelWidth = MAX_X_VIEWPORT / imageWidth;
     }
-    float pixelHeight = pixelWidth;
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    ourShader.use();
+
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -187,4 +192,15 @@ void processInput(GLFWwindow *window)
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    if (yoffset > 0) {
+        pixelHeight = pixelHeight * 1.01f;
+    } else if (yoffset < 0) {
+        pixelHeight = pixelHeight * 0.99f;
+    }
+    pixelWidth = pixelHeight;
+
 }
