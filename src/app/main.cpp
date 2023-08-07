@@ -69,10 +69,10 @@ int main()
     // set up vertex data (and buffer(s)) and configure vertex attributes
     float vertices[] = {
         // positions          // colors
-        0.5f,  0.5f, 0.0f,    0.5f, 0.5f, 0.5f,   // top right
-        0.5f, -0.5f, 0.0f,    0.5f, 0.5f, 0.5f,   // bottom right
-        -0.5f, -0.5f, 0.0f,   0.5f, 0.5f, 0.5f,  // bottom left
-        -0.5f,  0.5f, 0.0f,   0.5f, 0.5f, 0.5f  // top left 
+         1.0f,  1.0f, 0.0f,   0.5f, 0.5f, 0.5f,   // top right
+         1.0f, -1.0f, 0.0f,   0.5f, 0.5f, 0.5f,   // bottom right
+        -1.0f, -1.0f, 0.0f,   0.5f, 0.5f, 0.5f,  // bottom left
+        -1.0f,  1.0f, 0.0f,   0.5f, 0.5f, 0.5f  // top left 
     };
 
     unsigned int indices[] = {
@@ -103,7 +103,11 @@ int main()
     ourShader.use();
 
     unsigned int nbPixels = 6;
-    const float maxDefaultViewportX = 0.6;
+    const float MAX_ABS_POSX_VIEWPORT = 0.8f;
+    const float MAX_X_VIEWPORT = MAX_ABS_POSX_VIEWPORT + MAX_ABS_POSX_VIEWPORT;
+    const float pixelWidth = MAX_X_VIEWPORT / nbPixels;
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -117,31 +121,26 @@ int main()
         // activate shader
         ourShader.use();
 
-        float pixelWidth = maxDefaultViewportX / nbPixels;
-        float halfPixelWidth = pixelWidth / 2;
-        float posX = -maxDefaultViewportX / 2 + halfPixelWidth;
+        float posx = -MAX_ABS_POSX_VIEWPORT + pixelWidth / 2;
 
-        glm::mat4 trans = glm::mat4(1.0f);
-
+        glBindVertexArray(VAO);
         for (unsigned int i = 0; i < nbPixels; ++i){
-            trans = glm::translate(trans, glm::vec3(posX, 0.0f, 0.0f));
-            ourShader.setMat4("transform", trans);
 
-            float aspect = (float)SCR_WIDTH/(float)SCR_HEIGHT;
-            glm::mat4 model = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
-            model = glm::scale(model, glm::vec3(0.3f, 0.3f, 1.0f));
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::scale(model, glm::vec3(pixelWidth, pixelWidth, 0.0f));
             ourShader.setMat4("model", model);
 
-            ourShader.setFloat("posx", posX);
+            glm::mat4 trans = glm::mat4(1.0f);
+            trans = glm::translate(trans, glm::vec3(posx, 0.0f, 0.0f));
+            ourShader.setMat4("trans", trans);
 
-            // render boxes
-            glBindVertexArray(VAO);
+            ourShader.use();
 
             // Draw the rectangle
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-            // need to draw pixel here
-            posX = posX + pixelWidth;
+            std::cout << "position x : ";
+            std::cout << posx << std::endl;
+            posx = posx + pixelWidth;
         }
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
