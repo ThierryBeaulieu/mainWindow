@@ -102,10 +102,18 @@ int main()
 
     ourShader.use();
 
-    unsigned int nbPixels = 6;
+    unsigned int imageWidth = 40;
+    unsigned int imageHeight = 20;
     const float MAX_ABS_POSX_VIEWPORT = 0.8f;
+    const float MAX_ABS_POSY_VIEWPORT = 0.8f;
     const float MAX_X_VIEWPORT = MAX_ABS_POSX_VIEWPORT + MAX_ABS_POSX_VIEWPORT;
-    const float pixelWidth = MAX_X_VIEWPORT / nbPixels;
+    const float MAX_Y_VIEWPORT = MAX_ABS_POSY_VIEWPORT + MAX_ABS_POSY_VIEWPORT;
+
+    float pixelWidth = MAX_X_VIEWPORT / imageHeight;
+    if (imageWidth > imageHeight){
+        pixelWidth = MAX_X_VIEWPORT / imageWidth;
+    }
+    float pixelHeight = pixelWidth;
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -122,24 +130,30 @@ int main()
         ourShader.use();
 
         float posx = -MAX_ABS_POSX_VIEWPORT + pixelWidth / 2;
+        float posy = MAX_ABS_POSY_VIEWPORT + pixelWidth / 2;
 
         glBindVertexArray(VAO);
-        for (unsigned int i = 0; i < nbPixels; ++i){
 
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::scale(model, glm::vec3(pixelWidth/2, pixelWidth/2, 0.0f));
-            ourShader.setMat4("model", model);
+        for (unsigned int i = 0; i < imageHeight; ++i) {
+            for (unsigned int j = 0; j < imageWidth; ++j) {
+                glm::mat4 model = glm::mat4(1.0f);
+                model = glm::scale(model, glm::vec3(pixelWidth/2, pixelWidth/2, 0.0f));
+                ourShader.setMat4("model", model);
 
-            glm::mat4 trans = glm::mat4(1.0f);
-            trans = glm::translate(trans, glm::vec3(posx, 0.0f, 0.0f));
-            ourShader.setMat4("trans", trans);
+                glm::mat4 trans = glm::mat4(1.0f);
+                trans = glm::translate(trans, glm::vec3(posx, posy, 0.0f));
+                ourShader.setMat4("trans", trans);
 
-            ourShader.use();
+                ourShader.use();
 
-            // Draw the rectangle
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            posx = posx + pixelWidth;
+                // Draw the rectangle
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+                posx = posx + pixelWidth;
+            }
+            posx = -MAX_ABS_POSX_VIEWPORT + pixelWidth / 2;
+            posy = posy - pixelHeight;
         }
+    
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
