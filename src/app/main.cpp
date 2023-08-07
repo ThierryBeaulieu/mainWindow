@@ -30,8 +30,9 @@ float lastFrame = 0.0f;
 
 float scalingRatio = 1.0f;
 
-unsigned int imageWidth = 64;
-unsigned int imageHeight = 48;
+// TODO: Solve the issue when width is higher than height
+unsigned int imageWidth = 48;
+unsigned int imageHeight = 64;
 const float MAX_ABS_POSX_VIEWPORT = 0.8f;
 const float MAX_ABS_POSY_VIEWPORT = 0.8f;
 const float MAX_X_VIEWPORT = MAX_ABS_POSX_VIEWPORT + MAX_ABS_POSX_VIEWPORT;
@@ -39,6 +40,8 @@ const float MAX_Y_VIEWPORT = MAX_ABS_POSY_VIEWPORT + MAX_ABS_POSY_VIEWPORT;
 
 float pixelWidth = MAX_X_VIEWPORT / imageHeight;
 float pixelHeight = pixelWidth;
+
+float zoom = 1.0f;
 
 int main()
 {
@@ -152,7 +155,7 @@ int main()
                 ourShader.setMat4("trans", trans);
 
                 glm::mat4 projection = glm::mat4(1.0f);
-                projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
+                projection = glm::ortho(-aspect * zoom, aspect * zoom, -1.0f * zoom, 1.0f * zoom, -0.1f, 100.0f);
                 ourShader.setMat4("projection", projection);
                 ourShader.use();
 
@@ -197,10 +200,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     if (yoffset > 0) {
-        pixelHeight = pixelHeight * 1.01f;
-    } else if (yoffset < 0) {
-        pixelHeight = pixelHeight * 0.99f;
+        zoom += 0.01f;
+    } else if (yoffset < 0 && zoom > 0) {
+        zoom -= 0.01f;
     }
-    pixelWidth = pixelHeight;
-
 }
