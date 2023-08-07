@@ -6,6 +6,8 @@ Hi! This is a little project I'm working on to learn OpenGL. To do so, I decided
 You will need to download the lastest version of 
 * GLFW
 * GLEW
+* SDL2
 on your machine.
 
-The repo also requires submodules. Don't forget to install those.
+The repo also requires submodules. Don't forget to install those
+`git submodule update --init --recursive`
