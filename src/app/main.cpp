@@ -1,5 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <SDL2/SDL.h>
 
 #include <stb_image.h>
 #include <shader.h>
@@ -42,6 +43,11 @@ int main()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        SDL_Log("SDL could not initialize: %s", SDL_GetError());
+        return 1;
+    }
+    
     // glfw window creation
     // --------------------
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
