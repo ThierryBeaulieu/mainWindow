@@ -7,9 +7,10 @@ out vec3 ourColor;
 
 uniform mat4 model;
 uniform mat4 trans;
+uniform mat4 projection;
 
 void main()
 {
-	gl_Position = trans * model * vec4(aPos, 1.0f);
+	gl_Position = projection * trans * model * vec4(aPos, 1.0f);
 	ourColor = aColor;
 }

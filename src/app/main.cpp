@@ -104,8 +104,8 @@ int main()
 
     unsigned int imageWidth = 40;
     unsigned int imageHeight = 20;
-    const float MAX_ABS_POSX_VIEWPORT = 0.8f;
-    const float MAX_ABS_POSY_VIEWPORT = 0.8f;
+    const float MAX_ABS_POSX_VIEWPORT = 0.9f;
+    const float MAX_ABS_POSY_VIEWPORT = 0.9f;
     const float MAX_X_VIEWPORT = MAX_ABS_POSX_VIEWPORT + MAX_ABS_POSX_VIEWPORT;
     const float MAX_Y_VIEWPORT = MAX_ABS_POSY_VIEWPORT + MAX_ABS_POSY_VIEWPORT;
 
@@ -132,6 +132,8 @@ int main()
         float posx = -MAX_ABS_POSX_VIEWPORT + pixelWidth / 2;
         float posy = MAX_ABS_POSY_VIEWPORT + pixelWidth / 2;
 
+        float aspect = (float)SCR_WIDTH/(float)SCR_HEIGHT;
+
         glBindVertexArray(VAO);
 
         for (unsigned int i = 0; i < imageHeight; ++i) {
@@ -144,6 +146,9 @@ int main()
                 trans = glm::translate(trans, glm::vec3(posx, posy, 0.0f));
                 ourShader.setMat4("trans", trans);
 
+                glm::mat4 projection = glm::mat4(1.0f);
+                projection = glm::ortho(-aspect, aspect, -1.0f, 1.0f, -0.1f, 100.0f);
+                ourShader.setMat4("projection", projection);
                 ourShader.use();
 
                 // Draw the rectangle
