@@ -71,7 +71,8 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     // build and compile our shader zprogram
-    Shader lightingShader("src/shaders/shader.vs", "src/shaders/shader.fs");
+    Shader lightingShader("src/shaders/shader.vs", "src/shaders/lighting.fs");
+    Shader lightCubeShader("src/shaders/shader.vs", "src/shaders/shader.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     float vertices[] = {
@@ -132,6 +133,21 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
+    // cube VAO
+    unsigned int cubeVAO;
+    glGenVertexArrays(1, &cubeVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindVertexArray(cubeVAO);
+
+    // position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    
+
     // lighting
     glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
@@ -175,13 +191,13 @@ int main()
 
 
         // also draw the lamp object
-        lightingShader.use();
-        lightingShader.setMat4("projection", projection);
-        lightingShader.setMat4("view", view);
+        lightCubeShader.use();
+        lightCubeShader.setMat4("projection", projection);
+        lightCubeShader.setMat4("view", view);
         model = glm::mat4(1.0f);
         model = glm::translate(model, lightPos);
         model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
-        lightingShader.setMat4("model", model);
+        lightCubeShader.setMat4("model", model);
 
         glBindVertexArray(lightVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
