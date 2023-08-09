@@ -22,7 +22,9 @@ configure_file(${CMAKE_SOURCE_DIR}/src/assets/container.jpg ${CMAKE_BINARY_DIR}/
 configure_file(${CMAKE_SOURCE_DIR}/src/assets/wall.jpg ${CMAKE_BINARY_DIR}/src/assets/wall.jpg COPYONLY)
 
 configure_file(${CMAKE_SOURCE_DIR}/src/shaders/shader.vs ${CMAKE_BINARY_DIR}/src/shaders/shader.vs COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/src/shaders/shader.fs ${CMAKE_BINARY_DIR}/src/shaders/shader.fs COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/shaders/cubeShader.fs ${CMAKE_BINARY_DIR}/src/shaders/cubeShader.fs COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/src/shaders/lampShader.fs ${CMAKE_BINARY_DIR}/src/shaders/lampShader.fs COPYONLY)
+
 
 
 

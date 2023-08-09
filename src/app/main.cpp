@@ -71,8 +71,8 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     // build and compile our shader zprogram
-    Shader lightingShader("src/shaders/shader.vs", "src/shaders/lighting.fs");
-    Shader lightCubeShader("src/shaders/shader.vs", "src/shaders/shader.fs");
+    Shader lightingShader("src/shaders/shader.vs", "src/shaders/cubeShader.fs");
+    Shader lightCubeShader("src/shaders/shader.vs", "src/shaders/lampShader.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     float vertices[] = {
